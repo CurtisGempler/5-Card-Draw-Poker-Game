@@ -63,10 +63,10 @@ def evaluate_hand(player) -> None:
     elif is_trips():
         set_hand(f"Three of a Kind {card_value_translator[max(unsuited_occurance, key = unsuited_occurance.get)]}'s", 4)
     elif is_two_pair():
-        max_card = max(unsuited_occurance, key=unsuited_occurance.get)
+        max_card = max(unsuited_occurance, key = unsuited_occurance.get)
         set_hand(f"Two Pair {card_value_translator[max_card]}'s and {card_value_translator[min(unsuited_occurance, key = unsuited_occurance.get)]}'s", 3)
     elif is_pair():
-        max_card = max(unsuited_occurance, key=unsuited_occurance.get)
+        max_card = max(unsuited_occurance, key = unsuited_occurance.get)
         set_hand(f"Pair {card_value_translator[max_card]}'s", 2)
     else:
         set_hand(f"High Card {card_value_translator[hand_high_card]}", 1)
