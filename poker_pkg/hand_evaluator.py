@@ -1,7 +1,7 @@
 """Module providing poker hand evaluation and value assignment"""
 from collections import Counter
 
-def evaluate_hand(player) -> None: 
+def evaluate_hand(player) -> None:
     # Local varible population
     unsuited_hand = player.unsuited_cards_get()
     suited_hand = player.suited_cards_get()
