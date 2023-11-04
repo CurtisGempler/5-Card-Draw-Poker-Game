@@ -109,7 +109,7 @@ def hand_comparision(players: dict) -> list:
         
         if player_name == "Player 1" or player.hand_value_get() == 0:
             continue
-        
+
         # Local Player settings
         player_hand_value = player.hand_value_get()
         player_hand = get_sorted_unsuited_hand(player)
@@ -117,16 +117,13 @@ def hand_comparision(players: dict) -> list:
         # Hand Value comparison 
         if high_hand_value < player_hand_value:
             set_high_hand_player(1, player_name)
-            high_hand_value = players[high_hand_player[0]].hand_value_get()
         elif high_hand_value == player_hand_value:
             # High Card comparison in event of matching hand values
             if  high_hand_value in (1, 5, 9):
                 set_high_hand_player(compare_hands(high_hand, player_hand),player_name)
-                high_hand_value = players[high_hand_player[0]].hand_value_get()
             # High pair, two pair, trips, quads, and full house comparison in event of matching hand values
             elif high_hand_value in (2, 3, 4, 7, 8):
                 set_high_hand_player(compare_hands(card_occurance(high_hand), card_occurance(player_hand)),player_name)
-                high_hand_value = players[high_hand_player[0]].hand_value_get()
             # Royal Flush suit comparison in event of matching hand values
             elif high_hand_value == 10:
                 high_hand_suits = players[high_hand_player[0]].suited_cards_get()
@@ -134,6 +131,7 @@ def hand_comparision(players: dict) -> list:
                 suits = {"♠️": 1,"♥️": 2,"♦️": 3,"♣️": 4}
                 if suits[high_hand_suits[0]] < suits[player_hand_suits[0]]:
                     set_high_hand_player(1, player_name)
-                    high_hand_value = players[high_hand_player[0]].hand_value_get()
+
+        high_hand_value = players[high_hand_player[0]].hand_value_get()
 
     return (high_hand_player)
