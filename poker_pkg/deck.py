@@ -2,33 +2,19 @@ import random
 
 def deck():
     card_deck = []
-    for i in range(13):
-        if i + 2 <= 10:
-            card_deck.append(f"{i + 2}♦️")
-            card_deck.append(f"{i + 2}♣️")
-            card_deck.append(f"{i + 2}♥️")
-            card_deck.append(f"{i + 2}♠️")
-        elif i + 2 == 11:
-            card_deck.append("J♦️")
-            card_deck.append("J♣️")
-            card_deck.append("J♥️")
-            card_deck.append("J♠️")
-        elif i + 2 == 12:
-            card_deck.append("Q♦️")
-            card_deck.append("Q♣️")
-            card_deck.append("Q♥️")
-            card_deck.append("Q♠️")
-        elif i + 2 == 13:
-            card_deck.append("K♦️")
-            card_deck.append("K♣️")
-            card_deck.append("K♥️")
-            card_deck.append("K♠️")
-        elif i + 2 == 14:
-            card_deck.append("A♦️")
-            card_deck.append("A♣️")
-            card_deck.append("A♥️")
-            card_deck.append("A♠️")
-    
+    for suit in ["♦️","♣️","♥️","♠️"]:
+        for rank in range(2, 15):
+            if rank <= 10:
+                card_deck.append(f"{rank}{suit}")
+            elif rank == 11:
+                card_deck.append(f"J{suit}")
+            elif rank == 12:
+                card_deck.append(f"Q{suit}")
+            elif rank == 13:
+                card_deck.append(f"K{suit}")
+            elif rank == 14:
+                card_deck.append(f"A{suit}")
+
     random.shuffle(card_deck)
-    
+
     return card_deck

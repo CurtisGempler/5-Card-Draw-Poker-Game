@@ -3,7 +3,7 @@ from poker_pkg.screens import print_table
 
 def ante(players, pot: dict) -> None:
     for player in players:
-        players[player].money_set(players[player].money_get() - 20)
+        players[player].money = players[player].money - 20
         pot["main_pot"] += 20
 
 def betting_round(players, pot: dict)  -> bool:
@@ -13,7 +13,7 @@ def betting_round(players, pot: dict)  -> bool:
         if players[player].dealer == "D":
             dealer_position = int(players[player].name[len(players[player].name) - 1:])
             break
-    
+
     player_count = len(players)
 
     if dealer_position < player_count:
@@ -23,14 +23,14 @@ def betting_round(players, pot: dict)  -> bool:
 
     current_bet = pot["current_bet"]
     betting_order = list(players)
-    betting_done = False  
+    betting_done = False
     count = 0
     high_bet_player = ""
 
     while not betting_done:
-        
+
         player = players[betting_order[bet_current_position]]
-        player_curent_bet = player.bet_get()
+        player_curent_bet = player.bet
 
         if player.name != high_bet_player:
             if not player.fold:
@@ -45,7 +45,7 @@ def betting_round(players, pot: dict)  -> bool:
                             elif player_choice == 2:
                                 fold(player)
                         else:
-                            player_choice = bet_choice_ck(input(f"\n1. Call ${current_bet - player.bet_get()}\n2. Fold\n3. Raise\nChoose: "), 3)
+                            player_choice = bet_choice_ck(input(f"\n1. Call ${current_bet - player.bet}\n2. Fold\n3. Raise\nChoose: "), 3)
                             if player_choice == 1:
                                 call_bet(player, current_bet, pot)
                             elif player_choice == 2:
@@ -54,7 +54,7 @@ def betting_round(players, pot: dict)  -> bool:
                                 current_bet = raise_bet(player, current_bet, bet_amount_ck(player, input("How much would you like to raise by?\n(Max: 100):")), pot)
                                 high_bet_player = player.name
                     else:
-                        player_hand_value = player.hand_value_get()
+                        player_hand_value = player.hand_value
                         if current_bet == 0:
                             if player_hand_value >= 1 and player_hand_value <= 3:
                                 current_bet = bet(player, 20, pot)
@@ -72,7 +72,7 @@ def betting_round(players, pot: dict)  -> bool:
                             if player_hand_value  >= 1 and player_hand_value <= 3:
                                 if current_bet > 40:
                                     fold(player)
-                                else: 
+                                else:
                                     call_bet(player, current_bet, pot)
                             elif player_hand_value >= 3 and player_hand_value  <= 6:
                                 if current_bet < 60:
@@ -104,9 +104,9 @@ def betting_round(players, pot: dict)  -> bool:
 
         count += 1
         betting_done = False
-        if player.name == high_bet_player: 
+        if player.name == high_bet_player:
             for seat in players:
-                if players[seat].bet_get() == current_bet or players[seat].fold_get():
+                if players[seat].bet == current_bet or players[seat].fold:
                     betting_done = True
                 else:
                     betting_done = False
@@ -116,38 +116,38 @@ def betting_round(players, pot: dict)  -> bool:
         if betting_done:
             fold_count = 0
             for seat in players:
-                if players[seat].fold == True:
+                if players[seat].fold:
                     fold_count += 1
             if fold_count == player_count - 1:
                 return True
             for seat in players:
-                players[seat].bet_set(0)
+                players[seat].bet = 0
 
         print_table(players, pot)
 
 def call_bet(player, current_bet: int, pot: dict) -> None:
-    player_money = player.money_get()
-    player_curent_bet = player.bet_get()
+    player_money = player.money
+    player_curent_bet = player.bet
     if current_bet - player_curent_bet < player_money:
         pot["main_pot"] += current_bet - player_curent_bet
-        player.money_set(player_money - (current_bet - player_curent_bet))
-        player.bet_set(current_bet)
+        player.money = player_money - (current_bet - player_curent_bet)
+        player.bet = current_bet
     else:
         print("You don't have enough money to call.")
         fold(player)
 
 def fold(player) -> None:
-    player.fold_set()
+    player.fold = True
 
 def bet(player, bet: int, pot: dict) -> int:
-    player.bet_set(bet)
-    player.money_set(player.money_get() - bet)
+    player.bet = bet
+    player.money = player.money - bet
     pot["main_pot"] += bet
     return bet
 
 def raise_bet(player, current_bet: int, bet: int, pot: dict) -> int:
     current_bet += bet
     pot["main_pot"] += current_bet
-    player.money_set(player.money_get() - current_bet)
-    player.bet_set(current_bet)
+    player.money = player.money - current_bet
+    player.bet = current_bet
     return current_bet
