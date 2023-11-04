@@ -9,7 +9,7 @@ def evaluate_hand(player) -> None:
     unsuited_occurance = {item: unsuited_hand.count(item) for item in unsuited_hand} # Returns dict with keys of list values and number of occurances
     card_value_translator = {14: "Ace",13: "King",12: "Queen",11: "Jack",10: "10",9: "9",8: "8",7: "7",6: "6",5: "5",
                              4: "4",3: "3",2: "2",}
-    
+
     # Player set attribute function 
     def set_hand(hand_string, hand_value):
         player.hand_string_set(hand_string)
@@ -92,7 +92,7 @@ def hand_comparision(players: dict) -> list:
             if high_hand_card < player_hand_card:
                 return 1
         return 2
-    
+
     # Counts recurring cards then returns filtered list of cards with multipuls
     def card_occurance(hand: list)-> list:
         card_counts = Counter(hand)
@@ -104,9 +104,9 @@ def hand_comparision(players: dict) -> list:
     high_hand_player = ["Player 1"]
     high_hand = get_sorted_unsuited_hand(players["Player 1"])
     high_hand_value = players["Player 1"].hand_value_get()
-    
+
     for player_name, player in players.items():
-        
+
         if player_name == "Player 1" or player.hand_value_get() == 0:
             continue
 
